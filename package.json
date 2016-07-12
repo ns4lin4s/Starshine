@@ -30,5 +30,8 @@
     "inert": "^4.0.1",
     "phaser": "^2.6.1",
     "vision": "^4.1.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1"
   }
 }
