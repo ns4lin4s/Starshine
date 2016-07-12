@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/0sv4ld0/Starshine#readme",
   "dependencies": {
+    "glue": "^3.3.0",
     "handlebars": "^4.0.5",
     "hapi": "^13.5.0",
     "inert": "^4.0.1",
