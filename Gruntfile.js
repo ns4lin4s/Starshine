@@ -10,7 +10,7 @@ module.exports = function (grunt) {
     },
     watch: {
       project: {
-        files: ['index.js', 'Gruntfile.js', 'templates/index.html','**'],
+        files: ['index.js', 'Gruntfile.js', 'templates/index.html','assets/**'],
         options: {
           livereload: true
         }

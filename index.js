@@ -1,7 +1,7 @@
 const hapi = require('hapi')
 const server = new hapi.Server()
-const vision = require('vision')
 const path = require('path')
+const glue = require('glue')
 
 server.connection({
 
@@ -9,8 +9,30 @@ server.connection({
 	port : 8081
 })
 
+server.register(require('inert'), function(err){
 
-server.register(vision,(err) => {
+	if(err)
+		throw err
+
+	server.route({
+        method: 'GET',
+        path: '/phaser',
+        handler: function (request, reply) {
+            reply.file('node_modules/phaser/build/phaser.min.js')
+        }
+    })
+
+    server.route({
+        method: 'GET',
+	    path: '/assets/{param*}',
+	    handler: {
+	        directory : {path : path.join(__dirname,'/assets')}
+	    }
+    })
+})
+
+
+server.register(require('vision'), function (err) { 
 
 	if(err)
 		throw err
@@ -29,7 +51,9 @@ server.register(vision,(err) => {
 			view : 'index.html'
 		}
 	})
-})
+
+});
+
 
 server.start((err) => {
 	if(err)
