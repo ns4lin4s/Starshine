@@ -3,10 +3,8 @@ const server = new hapi.Server()
 const path = require('path')
 const glue = require('glue')
 
-server.connection({
-
-	host : 'localhost',
-	port : 8081
+server.connection({	
+	port : process.env.port || 3000
 })
 
 server.register(require('inert'), function(err){
