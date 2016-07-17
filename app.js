@@ -39,7 +39,7 @@ server.register(require('vision'), function (err) {
 		engines : {
 			html : require('handlebars')
 		},
-		path : path.join(__dirname,'/templates')
+		path : path.join(__dirname,'/dist/public/')
 	})
 
 	server.route({
