@@ -23,6 +23,18 @@ module.exports = function (grunt) {
         }
       }
     },
+    babel: {
+        options: {
+            sourceMap: true,
+            presets: ['es2015']
+        },
+        dist: {
+            files: {
+                'dist/public/js/app.js': 'src/js/app.js',
+                'test/dev/js/app.js': 'src/js/app.js'
+            }
+        }
+    },
     // Before generating any new files, remove any previously-created files.
     clean: {
       test: ['dist/public/*','test/dev/*']
@@ -41,12 +53,14 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-targethtml');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('test', ['clean','targethtml']);
-  grunt.registerTask('default', ['connect', 'watch']);
+  grunt.registerTask('clean-dir', ['clean']);
+  grunt.registerTask('build-client', ['clean', 'babel', 'targethtml']);
+  grunt.registerTask('build', ['clean-dir','build-client', 'connect', 'watch']);
 
 };
