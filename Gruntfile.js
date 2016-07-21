@@ -14,26 +14,40 @@ module.exports = function (grunt) {
           }
         }
       }
-    },
-    watch: {
-      project: {
-        files: ['app.js', 'Gruntfile.js', 'src/index.html','assets/**','test/dev/*'],
-        options: {
-          livereload: true
-        }
-      }
-    },
+    },    
     babel: {
         options: {
             sourceMap: true,
             presets: ['es2015']
         },
         dist: {
-            files: {
-                'dist/public/js/app.js': 'src/js/app.js',
-                'test/dev/js/app.js': 'src/js/app.js'
-            }
+            files: [{
+              expand:true,
+              cwd: 'src/js/',
+              src: ['*.js'],
+              dest : 'dist/public/js/'
+            }]
+        },
+        dev : {
+          files: [{
+              expand:true,
+              cwd: 'src/js/',
+              src: ['*.js'],
+              dest : 'test/dev/js/'
+            }]
         }
+    },
+    watch: {
+      scripts: {
+        files: "src/js/*.js",
+        tasks: ["babel"]
+      },
+      project: {
+        files: ['app.js', 'Gruntfile.js', 'src/index.html','assets/**','test/dev/*'],
+        options: {
+          livereload: true
+        }
+      }
     },
     // Before generating any new files, remove any previously-created files.
     clean: {
@@ -59,7 +73,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('clean-dir', ['clean']);
+  grunt.registerTask('rmdir', ['clean']);
   grunt.registerTask('build-client', ['clean', 'babel', 'targethtml']);
   grunt.registerTask('build', ['clean-dir','build-client', 'connect', 'watch']);
 
