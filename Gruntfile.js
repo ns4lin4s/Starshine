@@ -14,8 +14,34 @@ module.exports = function (grunt) {
           }
         }
       }
+    },    
+    babel: {
+        options: {
+            sourceMap: true,
+            presets: ['es2015']
+        },
+        dist: {
+            files: [{
+              expand:true,
+              cwd: 'src/js/',
+              src: ['*.js'],
+              dest : 'dist/public/js/'
+            }]
+        },
+        dev : {
+          files: [{
+              expand:true,
+              cwd: 'src/js/',
+              src: ['*.js'],
+              dest : 'test/dev/js/'
+            }]
+        }
     },
     watch: {
+      scripts: {
+        files: "src/js/*.js",
+        tasks: ["babel"]
+      },
       project: {
         files: ['app.js', 'Gruntfile.js', 'src/index.html','assets/**','test/dev/*'],
         options: {
@@ -41,12 +67,14 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-targethtml');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('test', ['clean','targethtml']);
-  grunt.registerTask('default', ['connect', 'watch']);
+  grunt.registerTask('rmdir', ['clean']);
+  grunt.registerTask('build-client', ['clean', 'babel', 'targethtml']);
+  grunt.registerTask('build', ['clean-dir','build-client', 'connect', 'watch']);
 
 };
